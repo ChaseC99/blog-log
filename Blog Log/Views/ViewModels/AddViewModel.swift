@@ -27,6 +27,11 @@ extension AddView {
             newReading.title = title
             newReading.notes = notes
             modelContext.insert(newReading)
+            do {
+                try modelContext.save()
+            } catch {
+                print("Error saving reading: \(error)")
+            }
         }
     }
 }

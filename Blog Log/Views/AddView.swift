@@ -13,7 +13,13 @@ struct AddView: View {
     var modelContext: ModelContext
     var dismiss: () -> Void
     
-    @State private var viewModel = ViewModel()
+    @State private var viewModel: ViewModel
+    
+    init(modelContext: ModelContext, dismiss: @escaping () -> Void, viewModel: ViewModel = ViewModel()) {
+        self.modelContext = modelContext
+        self.dismiss = dismiss
+        self.viewModel = viewModel
+    }
     
     func fetchMetadata() {
         // Metadata fetching logic
