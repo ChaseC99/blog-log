@@ -7,11 +7,12 @@
 
 import SwiftUI
 import LinkPresentation
+import SwiftData
 
 struct AddView: View {
+    var modelContext: ModelContext
     var dismiss: () -> Void
     
-    @Environment(\.modelContext) private var modelContext
     @State private var viewModel = ViewModel()
     
     func fetchMetadata() {
@@ -69,5 +70,5 @@ struct AddView: View {
 }
 
 #Preview {
-    AddView(dismiss: {})
+    AddView(modelContext: ModelContext(ModelContainerProvider.shared), dismiss: {})
 }

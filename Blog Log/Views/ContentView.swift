@@ -38,7 +38,7 @@ struct ContentView: View {
             }
         }
         .sheet(isPresented: $isPresentingAddView) {
-            AddView(dismiss: {isPresentingAddView = false})
+            AddView(modelContext: modelContext, dismiss: {isPresentingAddView = false})
         }
     }
 
