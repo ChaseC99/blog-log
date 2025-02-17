@@ -27,6 +27,7 @@ class ShareViewController: UIViewController {
                             // Handle the URL (e.g., save it to a model context)
                             print("URL: \(url)")
                             viewModel.url = url.absoluteString
+                            viewModel.fetchMetaData()
                         }
                     }
                 }

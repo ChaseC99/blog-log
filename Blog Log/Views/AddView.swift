@@ -21,25 +21,21 @@ struct AddView: View {
         self.viewModel = viewModel
     }
     
-    func fetchMetadata() {
-        // Metadata fetching logic
-    }
-    
     var body: some View {
         NavigationView {
             VStack(spacing: 16) {
                 // URL Input Field
-                TextField("URL", text: $viewModel.url, onCommit: fetchMetadata)
+                TextField("URL", text: $viewModel.url, onCommit: viewModel.fetchMetaData)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .keyboardType(.URL)
                     .textInputAutocapitalization(.never)
                 
                 // Title Input Field
-                TextField("Title", text: $viewModel.title)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                
                 if viewModel.isLoadingMetaData {
                     ProgressView("Loading...")
+                } else {
+                    TextField("Title", text: $viewModel.title)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
                 }
                 
                 // Date Field
