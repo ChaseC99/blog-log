@@ -8,6 +8,7 @@
 import SwiftUI
 import LinkPresentation
 import SwiftData
+import UniformTypeIdentifiers
 
 struct AddView: View {
     var dismiss: () -> Void
@@ -23,11 +24,18 @@ struct AddView: View {
         NavigationStack {
             VStack(spacing: 16) {
                 // URL Input Field
-                TextField("URL", text: $viewModel.url, onCommit: viewModel.fetchMetaData)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .keyboardType(.URL)
-                    .textInputAutocapitalization(.never)
-                
+                HStack {
+                    TextField("URL", text: $viewModel.url, onCommit: viewModel.fetchMetaData)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .keyboardType(.URL)
+                        .textInputAutocapitalization(.never)
+                    
+                    PasteButton(payloadType: String.self) { items in
+                        guard let text = items.first else { return }
+                        viewModel.url = text
+                        viewModel.fetchMetaData()
+                    }
+                }
                 
                 if viewModel.isLoadingMetaData {
                     // Show loading indicator when metadata is loading
@@ -55,14 +63,11 @@ struct AddView: View {
                     }
                 }
                 
+                // Notes Input Field
+                TextInput(placeholder: "Note", text: $viewModel.notes)
+                
                 // Date Field
                 DatePicker("Read on", selection: $viewModel.timestamp)
-                
-                // Notes Input Field
-                TextEditor(text: $viewModel.notes)
-                    .frame(height: 150)
-                
-                Spacer()
             }
             .padding()
             .toolbar {
