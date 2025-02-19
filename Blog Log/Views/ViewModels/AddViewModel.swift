@@ -14,6 +14,7 @@ extension AddView {
     class ViewModel {
         // State
         var isLoadingMetaData = false
+        var errorLoadingMetaData = false
         
         // Content
         var existingReading: Reading?
@@ -21,14 +22,16 @@ extension AddView {
         var title: String
         var url: String
         var notes: String
+        var image: UIImage?
         var modelContext: ModelContext
         
-        init(isLoadingMetaData: Bool = false, timestamp: Date = Date(), title: String = "", url: String = "", notes: String = "") {
+        init(isLoadingMetaData: Bool = false, timestamp: Date = Date(), title: String = "", image: UIImage? = nil, url: String = "", notes: String = "") {
             self.isLoadingMetaData = isLoadingMetaData
             self.timestamp = timestamp
             self.title = title
             self.url = url
             self.notes = notes
+            self.image = image
             
             self.existingReading = nil
             self.modelContext = ModelContext(ModelContainerProvider.shared)
@@ -39,6 +42,11 @@ extension AddView {
             self.title = reading.title ?? ""
             self.url = reading.url?.absoluteString ?? ""
             self.notes = reading.notes ?? ""
+            if let data = reading.image, let image = UIImage(data: data) {
+                self.image = image
+            } else {
+                self.image = nil
+            }
             
             self.existingReading = reading
             self.modelContext = ModelContext(ModelContainerProvider.shared)
@@ -53,8 +61,33 @@ extension AddView {
                     if let metadata = metadata {
                         DispatchQueue.main.async {
                             self.title = metadata.title ?? ""
+                            if let imageProvider = metadata.imageProvider {
+                                // Get the image from the website
+                                imageProvider.loadObject(ofClass: UIImage.self) { image, error in
+                                    DispatchQueue.main.async {
+                                        if let image = image as? UIImage {
+                                            self.image = image.resize(to: CGSize(width: 250, height: 250))
+                                        }
+                                    }
+                                }
+                            } else if let iconProvider = metadata.iconProvider {
+                                // Fallback: Get the icon from the website
+                                iconProvider.loadObject(ofClass: UIImage.self) { image, error in
+                                    DispatchQueue.main.async {
+                                        if let image = image as? UIImage {
+                                            self.image = image.resize(to: CGSize(width: 250, height: 250))
+                                        }
+                                    }
+                                }
+                            }
+
+                            self.errorLoadingMetaData = false
                             self.isLoadingMetaData = false
                         }
+                    } else {
+                        print("Error fetching metadata: \(error?.localizedDescription ?? "Unknown error")")
+                        self.errorLoadingMetaData = true
+                        self.isLoadingMetaData = false
                     }
                 }
             }
@@ -69,6 +102,7 @@ extension AddView {
                 existingReading.timestamp = self.timestamp
                 existingReading.url = URL(string: self.url)
                 existingReading.title = title
+                existingReading.image = self.image?.pngData()
                 existingReading.notes = notes
             } else {
                 // Create new reading
@@ -76,6 +110,7 @@ extension AddView {
                     timestamp: self.timestamp,
                     url: URL(string: self.url),
                     title: title,
+                    image: self.image?.pngData(),
                     notes: notes
                 )
                 modelContext.insert(newReading)

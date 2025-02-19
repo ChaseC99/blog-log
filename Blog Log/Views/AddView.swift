@@ -20,7 +20,7 @@ struct AddView: View {
     }
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack(spacing: 16) {
                 // URL Input Field
                 TextField("URL", text: $viewModel.url, onCommit: viewModel.fetchMetaData)
@@ -28,17 +28,35 @@ struct AddView: View {
                     .keyboardType(.URL)
                     .textInputAutocapitalization(.never)
                 
-                // Title Input Field
+                
                 if viewModel.isLoadingMetaData {
+                    // Show loading indicator when metadata is loading
                     ProgressView("Loading...")
                 } else {
-                    TextField("Title", text: $viewModel.title)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                    // Show error message if metadata fails to load
+                    if viewModel.errorLoadingMetaData {
+                        Text("Unable to load metadata, but you can still enter it on your own.")
+                            .font(.caption)
+                    }
+                    
+                    HStack(alignment: .center) {
+                        // Preview Image
+                        if let image = viewModel.image {
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 50, height: 50)
+                                .clipped()
+                        }
+                        
+                        // Title Input Field
+                        TextField("Title", text: $viewModel.title)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                    }
                 }
                 
                 // Date Field
                 DatePicker("Read on", selection: $viewModel.timestamp)
-                
                 
                 // Notes Input Field
                 TextEditor(text: $viewModel.notes)

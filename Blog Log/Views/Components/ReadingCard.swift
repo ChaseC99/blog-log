@@ -16,15 +16,32 @@ struct ReadingCard: View {
     
     var body: some View {
         HStack {
-            VStack(alignment: .leading){
-                if let title = reading.title {
-                    Text(title)
-                        .font(.title2)
-                        .bold()
+            HStack {
+                if let image = reading.image, let uiImage = UIImage(data: image) {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 50, height: 50)
+                        .cornerRadius(10)
+                        .clipped()
+                } else {
+                    Image(systemName: "doc.plaintext")
+                        .resizable()
+                        .padding(5)
+                        .scaledToFit()
+                        .frame(width: 50, height: 50)
                 }
-                if let url = reading.url?.absoluteString {
-                    Text(url)
-                        .font(.callout)
+                VStack(alignment: .leading){
+                    if let title = reading.title {
+                        Text(title)
+                            .font(.title2)
+                            .bold()
+                    }
+                    
+                    if let url = reading.url?.absoluteString {
+                        Text(url)
+                            .font(.callout)
+                    }
                 }
             }
             Spacer()
