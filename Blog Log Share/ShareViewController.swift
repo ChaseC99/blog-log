@@ -35,8 +35,7 @@ class ShareViewController: UIViewController {
         }
         
         // Setup a SwiftUI view
-        let modelContext = ModelContext(ModelContainerProvider.shared)
-        let contentView = UIHostingController(rootView: AddView(modelContext: modelContext, dismiss: self.close, viewModel: viewModel))
+        let contentView = UIHostingController(rootView: AddView(dismiss: self.close, viewModel: viewModel))
         self.addChild(contentView)
         self.view.addSubview(contentView.view)
         contentView.view.translatesAutoresizingMaskIntoConstraints = false

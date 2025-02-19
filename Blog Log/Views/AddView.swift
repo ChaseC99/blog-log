@@ -10,13 +10,11 @@ import LinkPresentation
 import SwiftData
 
 struct AddView: View {
-    var modelContext: ModelContext
     var dismiss: () -> Void
     
     @State private var viewModel: ViewModel
     
-    init(modelContext: ModelContext, dismiss: @escaping () -> Void, viewModel: ViewModel = ViewModel()) {
-        self.modelContext = modelContext
+    init(dismiss: @escaping () -> Void, viewModel: ViewModel = ViewModel()) {
         self.dismiss = dismiss
         self.viewModel = viewModel
     }
@@ -59,7 +57,7 @@ struct AddView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        viewModel.addReading(to: modelContext)
+                        viewModel.addReading()
                         dismiss()
                     }) {
                         Text("Log")
@@ -72,5 +70,5 @@ struct AddView: View {
 }
 
 #Preview {
-    AddView(modelContext: ModelContext(ModelContainerProvider.shared), dismiss: {})
+    AddView(dismiss: {})
 }

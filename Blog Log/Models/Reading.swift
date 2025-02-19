@@ -15,7 +15,10 @@ final class Reading {
     var title: String?
     var notes: String?
     
-    init(timestamp: Date) {
+    init(timestamp: Date, url: URL? = nil, title: String? = nil, notes: String? = nil) {
         self.timestamp = timestamp
+        self.url = url
+        self.title = title
+        self.notes = notes
     }
 }

@@ -16,15 +16,28 @@ extension AddView {
         var isLoadingMetaData = false
         
         // Content
-        var timestamp: Date = Date()
-        var title: String = ""
-        var url: String = ""
-        var notes: String = ""
+        var id: UUID?
+        var timestamp: Date
+        var title: String
+        var url: String
+        var notes: String
+        var modelContext: ModelContext
+        
+        init(isLoadingMetaData: Bool = false, id: UUID? = nil, timestamp: Date = Date(), title: String = "", url: String = "", notes: String = "") {
+            self.isLoadingMetaData = isLoadingMetaData
+            self.id = id
+            self.timestamp = timestamp
+            self.title = title
+            self.url = url
+            self.notes = notes
+            
+            self.modelContext = ModelContext(ModelContainerProvider.shared)
+        }
         
         func fetchMetaData() {
             isLoadingMetaData = true
             let metadataProvider = LPMetadataProvider()
-            if let url = URL(string: url) {
+            if let url = URL(string: self.url) {
                 metadataProvider.startFetchingMetadata(for: url) { metadata, error in
                     if let metadata = metadata {
                         DispatchQueue.main.async {
@@ -36,11 +49,16 @@ extension AddView {
             }
         }
         
-        func addReading(to modelContext: ModelContext) {
-            let newReading = Reading(timestamp: Date())
-            newReading.url = URL(string: url)
-            newReading.title = title
-            newReading.notes = notes
+        func addReading() {
+            let title: String? = self.title.isEmpty ? nil : self.title
+            let notes: String? = self.notes.isEmpty ? nil : self.notes
+
+            let newReading = Reading(
+                timestamp: self.timestamp,
+                url: URL(string: self.url),
+                title: title,
+                notes: notes
+            )
             modelContext.insert(newReading)
             do {
                 try modelContext.save()
