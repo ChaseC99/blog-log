@@ -16,23 +16,34 @@ extension AddView {
         var isLoadingMetaData = false
         
         // Content
-        var id: UUID?
+        var existingReading: Reading?
         var timestamp: Date
         var title: String
         var url: String
         var notes: String
         var modelContext: ModelContext
         
-        init(isLoadingMetaData: Bool = false, id: UUID? = nil, timestamp: Date = Date(), title: String = "", url: String = "", notes: String = "") {
+        init(isLoadingMetaData: Bool = false, timestamp: Date = Date(), title: String = "", url: String = "", notes: String = "") {
             self.isLoadingMetaData = isLoadingMetaData
-            self.id = id
             self.timestamp = timestamp
             self.title = title
             self.url = url
             self.notes = notes
             
+            self.existingReading = nil
             self.modelContext = ModelContext(ModelContainerProvider.shared)
         }
+        
+        init(reading: Reading) {
+            self.timestamp = reading.timestamp
+            self.title = reading.title ?? ""
+            self.url = reading.url?.absoluteString ?? ""
+            self.notes = reading.notes ?? ""
+            
+            self.existingReading = reading
+            self.modelContext = ModelContext(ModelContainerProvider.shared)
+        }
+
         
         func fetchMetaData() {
             isLoadingMetaData = true
@@ -49,17 +60,28 @@ extension AddView {
             }
         }
         
-        func addReading() {
+        func saveReading() {
             let title: String? = self.title.isEmpty ? nil : self.title
             let notes: String? = self.notes.isEmpty ? nil : self.notes
 
-            let newReading = Reading(
-                timestamp: self.timestamp,
-                url: URL(string: self.url),
-                title: title,
-                notes: notes
-            )
-            modelContext.insert(newReading)
+            if let existingReading = self.existingReading {
+                // Update existing reading
+                existingReading.timestamp = self.timestamp
+                existingReading.url = URL(string: self.url)
+                existingReading.title = title
+                existingReading.notes = notes
+            } else {
+                // Create new reading
+                let newReading = Reading(
+                    timestamp: self.timestamp,
+                    url: URL(string: self.url),
+                    title: title,
+                    notes: notes
+                )
+                modelContext.insert(newReading)
+            }
+
+            // Save the context
             do {
                 try modelContext.save()
             } catch {

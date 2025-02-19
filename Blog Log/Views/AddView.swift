@@ -57,7 +57,7 @@ struct AddView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        viewModel.addReading()
+                        viewModel.saveReading()
                         dismiss()
                     }) {
                         Text("Log")
