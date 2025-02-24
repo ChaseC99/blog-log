@@ -11,7 +11,7 @@ import UIKit
 
 @Model
 final class Reading {
-    var timestamp: Date
+    var timestamp: Date = Date()
     var url: URL?
     var image: Data?
     var title: String?

@@ -40,6 +40,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		AB3FB5622D6C66820049E2DB /* Exceptions for "Blog Log" folder in "Blog Log" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Blog-Log-Info.plist",
+			);
+			target = ABE37B352D5F2FA6007B7665 /* Blog Log */;
+		};
 		ABE37B8F2D6334CB007B7665 /* Exceptions for "Blog Log Share" folder in "Blog Log Share" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -52,7 +59,9 @@
 			membershipExceptions = (
 				Data/ModelContainerProvider.swift,
 				Models/Reading.swift,
+				Utils/extensions.swift,
 				Views/AddView.swift,
+				Views/Components/TextInput.swift,
 				Views/ViewModels/AddViewModel.swift,
 			);
 			target = ABE37B832D6334CB007B7665 /* Blog Log Share */;
@@ -63,6 +72,7 @@
 		ABE37B382D5F2FA6007B7665 /* Blog Log */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
+				AB3FB5622D6C66820049E2DB /* Exceptions for "Blog Log" folder in "Blog Log" target */,
 				ABE37B952D63371A007B7665 /* Exceptions for "Blog Log" folder in "Blog Log Share" target */,
 			);
 			path = "Blog Log";
@@ -375,11 +385,13 @@
 				DEVELOPMENT_TEAM = 7T2LH9BP6J;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Blog-Log-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -405,11 +417,13 @@
 				DEVELOPMENT_TEAM = 7T2LH9BP6J;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Blog-Log-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -434,6 +448,7 @@
 				INFOPLIST_FILE = "Blog Log Share/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Blog Log Share";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -460,6 +475,7 @@
 				INFOPLIST_FILE = "Blog Log Share/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Blog Log Share";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
