@@ -29,12 +29,6 @@ struct AddView: View {
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .keyboardType(.URL)
                         .textInputAutocapitalization(.never)
-                    
-                    PasteButton(payloadType: String.self) { items in
-                        guard let text = items.first else { return }
-                        viewModel.url = text
-                        viewModel.fetchMetaData()
-                    }
                 }
                 
                 if viewModel.isLoadingMetaData {
