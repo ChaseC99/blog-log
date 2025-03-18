@@ -40,13 +40,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		AB3FB5622D6C66820049E2DB /* Exceptions for "Blog Log" folder in "Blog Log" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"Blog-Log-Info.plist",
-			);
-			target = ABE37B352D5F2FA6007B7665 /* Blog Log */;
-		};
 		ABE37B8F2D6334CB007B7665 /* Exceptions for "Blog Log Share" folder in "Blog Log Share" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -72,7 +65,6 @@
 		ABE37B382D5F2FA6007B7665 /* Blog Log */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				AB3FB5622D6C66820049E2DB /* Exceptions for "Blog Log" folder in "Blog Log" target */,
 				ABE37B952D63371A007B7665 /* Exceptions for "Blog Log" folder in "Blog Log Share" target */,
 			);
 			path = "Blog Log";
