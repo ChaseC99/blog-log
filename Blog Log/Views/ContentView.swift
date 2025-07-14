@@ -59,5 +59,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .modelContainer(for: Reading.self, inMemory: true)
+        .modelContainer(MockData.previewContainer())
 }
