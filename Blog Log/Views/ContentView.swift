@@ -9,50 +9,64 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
     @Query(sort: \Reading.timestamp, order: .reverse) private var readings: [Reading]
 
-    @State private var isPresentingAddView = false
+    @State private var viewModel: ViewModel = ViewModel()
 
     var body: some View {
         NavigationStack {
-            List {
-                ForEach(readings) { reading in
-                    NavigationLink {
-                        ReadingView(reading: reading)
-                    } label: {
-                        ReadingCard(reading: reading)
+            ZStack {
+                // Main List View
+                VStack {
+                    ReadingSearchBar(
+                        searchText: $viewModel.searchText,
+                        hostSuggestions: viewModel.hostSuggestions
+                    )
+                    List {
+                        ForEach(viewModel.filteredReadings) { reading in
+                            NavigationLink {
+                                ReadingView(reading: reading)
+                            } label: {
+                                ReadingCard(reading: reading)
+                            }
+                        }
                     }
+                    .listStyle(.plain)
                 }
-                .onDelete(perform: deleteItems)
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Reading", systemImage: "plus")
+
+                // Floating Add Button
+                VStack {
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        Button(action: addItem) {
+                            Image(systemName: "plus")
+                                .font(.system(size: 24))
+                                .foregroundColor(.white)
+                                .padding()
+                                .background(Color.accentColor)
+                                .clipShape(Circle())
+                                .shadow(radius: 4)
+                        }
+                        .padding()
                     }
                 }
             }
         }
-        .sheet(isPresented: $isPresentingAddView) {
-            AddView(dismiss: {isPresentingAddView = false})
+        .sheet(isPresented: $viewModel.isPresentingAddView) {
+            AddView(dismiss: {viewModel.isPresentingAddView = false})
+        }
+        .onAppear {
+            viewModel.readings = readings
+        }
+        .onChange(of: readings) { _, newReadings in
+            viewModel.readings = newReadings
         }
     }
 
     private func addItem() {
         withAnimation {
-            isPresentingAddView = true
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(readings[index])
-            }
+            viewModel.isPresentingAddView = true
         }
     }
 }
