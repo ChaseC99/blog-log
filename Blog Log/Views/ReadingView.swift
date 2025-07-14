@@ -6,11 +6,16 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ReadingView: View {
     var reading: Reading
     
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
+    
     @State private var isEditing = false
+    @State private var showDeleteConfirmation = false
     
     var body: some View {
         VStack {
@@ -31,14 +36,28 @@ struct ReadingView: View {
             Spacer()
         }
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItemGroup(placement: .navigationBarTrailing) {
                 Button("Edit", action: {
                     isEditing = true
                 })
+                Button(role: .destructive) {
+                    showDeleteConfirmation = true
+                } label: {
+                    Image(systemName: "trash")
+                }
             }
         }
         .sheet(isPresented: $isEditing) {
             AddView(dismiss: {isEditing = false}, viewModel: AddView.ViewModel(reading: reading))
+        }
+        .alert("Delete Reading?", isPresented: $showDeleteConfirmation) {
+            Button("Delete", role: .destructive) {
+                modelContext.delete(reading)
+                dismiss()
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("This action cannot be undone.")
         }
         .padding()
     }
