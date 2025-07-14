@@ -38,8 +38,8 @@ struct ReadingCard: View {
                             .bold()
                     }
                     
-                    if let url = reading.url?.absoluteString {
-                        Text(url)
+                    if let url = reading.url {
+                        Text(url.host() ?? url.absoluteString)
                             .font(.callout)
                     }
                 }
