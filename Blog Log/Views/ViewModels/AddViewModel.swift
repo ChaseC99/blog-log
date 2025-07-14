@@ -60,7 +60,13 @@ extension AddView {
                 metadataProvider.startFetchingMetadata(for: url) { metadata, error in
                     if let metadata = metadata {
                         DispatchQueue.main.async {
+                            // Use the rendered url, if possible, to get the actual URl after redirects
+                            // example: open.substack.com/pub/slam -> slam.substack.com
+                            self.url = metadata.url?.absoluteString ?? self.url
+                            
+                            // Get the title from metadata
                             self.title = metadata.title ?? ""
+                            
                             if let imageProvider = metadata.imageProvider {
                                 // Get the image from the website
                                 imageProvider.loadObject(ofClass: UIImage.self) { image, error in
