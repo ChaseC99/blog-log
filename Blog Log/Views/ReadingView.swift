@@ -18,32 +18,55 @@ struct ReadingView: View {
     @State private var showDeleteConfirmation = false
     
     var body: some View {
-        VStack {
-            Text(reading.title ?? "")
-                .font(.largeTitle)
-                .padding()
-            
-            if let url = reading.url {
-                Link(url.absoluteString, destination: url)
+        ScrollView {
+            VStack(alignment: .leading) {
+                HStack(alignment: .top) {
+                    // Placeholder for image
+                    
+                    // Title and URL
+                    VStack(alignment: .leading) {
+                        Text(reading.title ?? "")
+                            .font(.largeTitle)
+                            .padding(.bottom, 4)
+                        
+                        if let url = reading.url {
+                            Link(destination: url) {
+                                Text(url.absoluteString)
+                                    .multilineTextAlignment(.leading)
+                            }
+                        }
+                    }
+                }
+                
+                Divider()
+                
+                Text("Read on \(reading.timestamp.formatted(date: .long, time: .shortened))")
+                    .font(.footnote)
+                
+                Spacer(minLength: 16)
+                
+                Text(reading.notes ?? "")
+                    .font(.body)
+                
+                Spacer()
             }
-            
-            Text(reading.notes ?? "")
-                .font(.body)
-                .padding()
-            
-            Text("Read on: \(reading.timestamp.formatted())")
-            
-            Spacer()
+            .padding()
         }
         .toolbar {
-            ToolbarItemGroup(placement: .navigationBarTrailing) {
-                Button("Edit", action: {
-                    isEditing = true
-                })
-                Button(role: .destructive) {
-                    showDeleteConfirmation = true
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Menu {
+                    Button {
+                        isEditing = true
+                    } label: {
+                        Label("Edit", systemImage: "pencil")
+                    }
+                    Button(role: .destructive) {
+                        showDeleteConfirmation = true
+                    } label: {
+                        Label("Delete", systemImage: "trash")
+                    }
                 } label: {
-                    Image(systemName: "trash")
+                    Label("Menu", systemImage: "ellipsis")
                 }
             }
         }
@@ -59,7 +82,6 @@ struct ReadingView: View {
         } message: {
             Text("This action cannot be undone.")
         }
-        .padding()
     }
 }
 
