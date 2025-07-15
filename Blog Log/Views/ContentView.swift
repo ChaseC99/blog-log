@@ -17,22 +17,26 @@ struct ContentView: View {
         NavigationStack {
             ZStack {
                 // Main List View
-                VStack {
-                    ReadingSearchBar(
-                        searchText: $viewModel.searchText,
-                        hostSuggestions: viewModel.hostSuggestions
-                    )
-                    List {
-                        ForEach(viewModel.filteredReadings) { reading in
-                            NavigationLink {
-                                ReadingView(reading: reading)
-                            } label: {
-                                ReadingCard(reading: reading)
-                            }
+                List {
+                    ForEach(viewModel.filteredReadings) { reading in
+                        NavigationLink {
+                            ReadingView(reading: reading)
+                        } label: {
+                            ReadingCard(reading: reading)
                         }
                     }
-                    .listStyle(.plain)
                 }
+                .listStyle(.plain)
+                .searchable(
+                    text: $viewModel.searchText,
+                    prompt: "Search Readings"
+                )
+                .searchSuggestions {
+                    ForEach(viewModel.hostSuggestions, id: \.self) { suggestion in
+                        Text(suggestion).searchCompletion(suggestion)
+                    }
+                }
+                .searchPresentationToolbarBehavior(.avoidHidingContent)
 
                 // Floating Add Button
                 VStack {
