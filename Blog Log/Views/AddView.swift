@@ -58,8 +58,8 @@ struct AddView: View {
                 }
                 
                 // Notes Input Field
-                TextInput(placeholder: "Note", text: $viewModel.notes)
-                
+                TextInput(placeholder: "Note", blogContent: viewModel.content, text: $viewModel.notes)
+
                 // Date Field
                 DatePicker("Read on", selection: $viewModel.timestamp)
             }
