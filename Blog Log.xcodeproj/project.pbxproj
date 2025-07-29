@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		ABE37B8E2D6334CB007B7665 /* Blog Log Share.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = ABE37B842D6334CB007B7665 /* Blog Log Share.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		ABE667692E38C8F200E0FB9A /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = ABE667682E38C8F200E0FB9A /* SwiftSoup */; };
+		ABE6676C2E38C90200E0FB9A /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = ABE6676B2E38C90200E0FB9A /* SwiftSoup */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +54,7 @@
 			membershipExceptions = (
 				Data/ModelContainerProvider.swift,
 				Models/Reading.swift,
+				Utils/ContentExtractor.swift,
 				Utils/extensions.swift,
 				Views/AddView.swift,
 				Views/Components/TextInput.swift,
@@ -85,6 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABE667692E38C8F200E0FB9A /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,6 +96,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABE6676C2E38C90200E0FB9A /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,6 +108,7 @@
 			children = (
 				ABE37B382D5F2FA6007B7665 /* Blog Log */,
 				ABE37B852D6334CB007B7665 /* Blog Log Share */,
+				ABE6676A2E38C90200E0FB9A /* Frameworks */,
 				ABE37B372D5F2FA6007B7665 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -114,6 +120,13 @@
 				ABE37B842D6334CB007B7665 /* Blog Log Share.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		ABE6676A2E38C90200E0FB9A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,6 +151,7 @@
 			);
 			name = "Blog Log";
 			packageProductDependencies = (
+				ABE667682E38C8F200E0FB9A /* SwiftSoup */,
 			);
 			productName = "Blog Log";
 			productReference = ABE37B362D5F2FA6007B7665 /* Blog Log.app */;
@@ -160,6 +174,7 @@
 			);
 			name = "Blog Log Share";
 			packageProductDependencies = (
+				ABE6676B2E38C90200E0FB9A /* SwiftSoup */,
 			);
 			productName = "Blog Log Share";
 			productReference = ABE37B842D6334CB007B7665 /* Blog Log Share.appex */;
@@ -192,6 +207,9 @@
 			);
 			mainGroup = ABE37B2D2D5F2FA6007B7665;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				ABE667672E38C8F200E0FB9A /* XCRemoteSwiftPackageReference "SwiftSoup" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = ABE37B372D5F2FA6007B7665 /* Products */;
 			projectDirPath = "";
@@ -514,6 +532,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		ABE667672E38C8F200E0FB9A /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scinfu/SwiftSoup.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.9.6;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		ABE667682E38C8F200E0FB9A /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ABE667672E38C8F200E0FB9A /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
+		};
+		ABE6676B2E38C90200E0FB9A /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ABE667672E38C8F200E0FB9A /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = ABE37B2E2D5F2FA6007B7665 /* Project object */;
 }

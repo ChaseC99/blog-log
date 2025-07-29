@@ -22,15 +22,17 @@ extension AddView {
         var title: String
         var url: String
         var notes: String
+        var content: String
         var image: UIImage?
         var modelContext: ModelContext
         
-        init(isLoadingMetaData: Bool = false, timestamp: Date = Date(), title: String = "", image: UIImage? = nil, url: String = "", notes: String = "") {
+        init(isLoadingMetaData: Bool = false, timestamp: Date = Date(), title: String = "", image: UIImage? = nil, url: String = "", notes: String = "", content: String = "") {
             self.isLoadingMetaData = isLoadingMetaData
             self.timestamp = timestamp
             self.title = title
             self.url = url
             self.notes = notes
+            self.content = content
             self.image = image
             
             self.existingReading = nil
@@ -50,16 +52,30 @@ extension AddView {
             
             self.existingReading = reading
             self.modelContext = ModelContext(ModelContainerProvider.shared)
+
+            self.content = ""
+            self.fetchContent()
         }
 
+        /// Fetches the metadata and content for the given URL.
+        /// Sets the `title`, `image`, and `content` properties based on the fetched metadata.
+        /// Does not return any value or error.
+        func fetchContent() {
+            DispatchQueue.main.async {
+                self.fetchMetaData()
+                self.fetchContentText()
+            }
+        }
         
+        /// Fetches metadata for the URL and updates the view model properties.
+        /// Note: This method is called on the main thread and runs asynchronously.
         func fetchMetaData() {
             isLoadingMetaData = true
             let metadataProvider = LPMetadataProvider()
             if let url = URL(string: self.url) {
                 metadataProvider.startFetchingMetadata(for: url) { metadata, error in
                     if let metadata = metadata {
-                        DispatchQueue.main.async {
+                        
                             // Use the rendered url, if possible, to get the actual URl after redirects
                             // example: open.substack.com/pub/slam -> slam.substack.com
                             self.url = metadata.url?.absoluteString ?? self.url
@@ -89,11 +105,25 @@ extension AddView {
 
                             self.errorLoadingMetaData = false
                             self.isLoadingMetaData = false
-                        }
                     } else {
-                        print("Error fetching metadata: \(error?.localizedDescription ?? "Unknown error")")
                         self.errorLoadingMetaData = true
                         self.isLoadingMetaData = false
+                        print("Error fetching metadata: \(error?.localizedDescription ?? "Unknown error")")
+                    }
+                }
+            }
+        }
+        
+        func fetchContentText() {
+            guard let url = URL(string: self.url) else { return }
+            
+            ContentExtractor.shared.extractContent(from: url) { result in
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success(let content):
+                        self.content = content
+                    case .failure(let error):
+                        print("Error fetching content: \(error.localizedDescription)")
                     }
                 }
             }

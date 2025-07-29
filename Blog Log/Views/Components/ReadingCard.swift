@@ -10,10 +10,6 @@ import SwiftUI
 struct ReadingCard: View {
     var reading: Reading
     
-    func fetchMetadata() {
-        // Metadata fetching logic
-    }
-    
     var body: some View {
         HStack {
             HStack {

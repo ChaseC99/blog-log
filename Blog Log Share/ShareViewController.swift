@@ -25,9 +25,8 @@ class ShareViewController: UIViewController {
                     attachment.loadItem(forTypeIdentifier: "public.url", options: nil) { (url, error) in
                         if let url = url as? URL {
                             // Handle the URL (e.g., save it to a model context)
-                            print("URL: \(url)")
                             viewModel.url = url.absoluteString
-                            viewModel.fetchMetaData()
+                            viewModel.fetchContent()
                         }
                     }
                 }
